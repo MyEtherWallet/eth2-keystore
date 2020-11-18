@@ -1,8 +1,8 @@
 {
-    "name": "eth2-keystore",
-    "version": "0.1.0",
+    "name": "@myetherwallet/eth2-keystore",
+    "version": "0.1.1",
     "description": "eth2 keystore",
-    "main": "src/index.js",
+    "main": "dist/index.js",
     "scripts": {
         "build": "babel src -d dist --copy-files --delete-dir-on-start",
         "test:web": "karma start",
