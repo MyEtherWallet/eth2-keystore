@@ -8,7 +8,12 @@ import { generatePublicKey, initBLS } from '@chainsafe/bls';
 import generateKeystore from './generateKeystore';
 import verifyKeystore from './verifyKeystore';
 class Keystore {
-    constructor(mnemonic = '', password = '', bits = 256, lang = 'english') {
+    constructor({
+        mnemonic = '',
+        password = '',
+        bits = 256,
+        lang = 'english'
+    }) {
         bip39.setDefaultWordlist(lang);
         if (mnemonic === '') {
             mnemonic = bip39.generateMnemonic(bits);
@@ -27,20 +32,26 @@ class Keystore {
     async getMnemonic() {
         return this.mnemonic;
     }
-    async getPath(idx = 0) {
-        return `m/12381/3600/${idx}/0/0`;
+    async getPath(idx = 0, isSigning = true) {
+        const withdrawalPath = `m/12381/3600/${idx}/0`;
+        return isSigning ? withdrawalPath + '/0' : withdrawalPath;
     }
-    async getChildKey(idx = 0) {
-        const path = await this.getPath(idx);
+    async getChildKey(idx = 0, isSigning = true) {
+        const path = await this.getPath(idx, isSigning);
         return deriveChildSKMultiple(this.masterKey, pathToIndices(path));
     }
-    async getPublicKey(idx = 0) {
+    async getPublicKey(idx = 0, isSigning = true) {
         await initBLS();
-        return generatePublicKey(this.getChildKey(idx));
+        return generatePublicKey(this.getChildKey(idx, isSigning));
     }
-    async toKeystore(password, idx = 0, params = {}) {
-        const childKey = await this.getChildKey(idx);
-        const path = await this.getPath(idx);
+    async toSigningKeystore(password, idx = 0, params = {}) {
+        const childKey = await this.getChildKey(idx, true);
+        const path = await this.getPath(idx, true);
+        return generateKeystore(childKey, password, params, path);
+    }
+    async toWithdrawalKeystore(password, idx = 0, params = {}) {
+        const childKey = await this.getChildKey(idx, false);
+        const path = await this.getPath(idx, false);
         return generateKeystore(childKey, password, params, path);
     }
 }

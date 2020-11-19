@@ -7,7 +7,11 @@ describe('Mnemonic Test', function () {
     languages.forEach(lang => {
         it('should pass ' + lang, function () {
             mnemonicVectors[lang].forEach(async mn => {
-                const keystore = new KeyStore(mn[1], 'TREZOR', 256, lang);
+                const keystore = new KeyStore({
+                    mnemonic: mn[1],
+                    password: 'TREZOR',
+                    lang
+                });
                 const entropy = await keystore.getEntropy();
                 const seed = await keystore.getSeed();
                 expect(entropy.toString('hex')).to.equal(mn[0]);
