@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import keystore0 from './vectors/keystores/test0.json';
 import keystore1 from './vectors/keystores/test1.json';
-import { generateKeystore, verifyKeystore } from '../src/index';
+import Keystore, { generateKeystore, verifyKeystore } from '../src/index';
 const PASSWORD =
     '\ud835\udd31\ud835\udd22\ud835\udd30\ud835\udd31\ud835\udd2d\ud835\udd1e\ud835\udd30\ud835\udd30\ud835\udd34\ud835\udd2c\ud835\udd2f\ud835\udd21\ud83d\udd11';
 const PRIV_KEY = Buffer.from(
@@ -46,6 +46,12 @@ describe('Keystore Test', function () {
         delete genKeystore['description'];
         expect(genKeystore).to.deep.equal(keystore1);
         const res = await verifyKeystore(genKeystore, PASSWORD);
+        expect(res).to.equal(true);
+    });
+    it('should create new keystore', async () => {
+        const ks = new Keystore();
+        const keystore = await ks.toWithdrawalKeystore(PASSWORD);
+        const res = await verifyKeystore(keystore, PASSWORD);
         expect(res).to.equal(true);
     });
 });

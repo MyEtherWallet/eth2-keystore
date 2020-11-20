@@ -13,7 +13,7 @@ class Keystore {
         password = '',
         bits = 256,
         lang = 'english'
-    }) {
+    } = {}) {
         bip39.setDefaultWordlist(lang);
         if (mnemonic === '') {
             mnemonic = bip39.generateMnemonic(bits);
