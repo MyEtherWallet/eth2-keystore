@@ -1,6 +1,6 @@
 {
     "name": "@myetherwallet/eth2-keystore",
-    "version": "0.2.1",
+    "version": "0.2.2",
     "description": "eth2 keystore",
     "main": "dist/index.js",
     "scripts": {
@@ -29,7 +29,7 @@
         "@babel/node": "^7.8.7",
         "@babel/plugin-transform-runtime": "^7.9.0",
         "@babel/preset-env": "^7.9.0",
-        "@chainsafe/bls": "^4.0.0",
+        "@chainsafe/bls": "^5.0.0",
         "@chainsafe/bls-hd-key": "^0.2.0",
         "babel-eslint": "^10.1.0",
         "babel-loader": "^8.2.1",

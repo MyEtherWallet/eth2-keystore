@@ -6,7 +6,7 @@ const MNEMONIC =
     'tenant glimpse solve letter chest ankle jealous movie subway exhibit cream garden scene grunt below patrol hurt fatigue escape trap phrase mandate feature one';
 const PASSWORD = 'testwallet';
 describe('HD signing keystore Test', function () {
-    this.timeout(10000);
+    this.timeout(30000);
     Object.keys(KeyVectors).forEach(vIdx => {
         const _key = KeyVectors[vIdx];
         it('should pass path ' + _key.path, async () => {
@@ -20,6 +20,7 @@ describe('HD signing keystore Test', function () {
                 mnemonic: MNEMONIC
             });
             const idx = parseInt(_key.path.split('/')[3]);
+            const pubKey = await ks.getPublicKey(idx, true);
             const genKeystore = await ks.toSigningKeystore(
                 PASSWORD,
                 idx,
@@ -27,6 +28,7 @@ describe('HD signing keystore Test', function () {
             );
             delete genKeystore['uuid'];
             expect(genKeystore).to.deep.equal(_key);
+            expect(pubKey.toString('hex')).to.equal(_key.pubkey);
             const res = await verifyKeystore(genKeystore, PASSWORD);
             expect(res).to.equal(true);
         });

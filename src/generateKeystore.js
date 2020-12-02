@@ -1,4 +1,4 @@
-import { generatePublicKey, initBLS } from '@chainsafe/bls';
+import { SecretKey, init } from '@chainsafe/bls';
 import { randomBytes, pbkdf2Sync, createCipheriv } from 'crypto';
 import { scrypt } from 'scrypt-js';
 import { sha256 } from 'ethereumjs-util';
@@ -54,7 +54,7 @@ const generate = async (privateKey, password, params = {}, path = '') => {
         v4Defaults.iv
     );
     const ciphertext = runCipherBuffer(cipher, privateKey);
-    await initBLS();
+    await init('herumi');
     return {
         crypto: {
             kdf: {
@@ -81,7 +81,9 @@ const generate = async (privateKey, password, params = {}, path = '') => {
             }
         },
         description: '',
-        pubkey: generatePublicKey(privateKey).toString('hex'),
+        pubkey: Buffer.from(
+            SecretKey.fromBytes(privateKey).toPublicKey().toBytes()
+        ).toString('hex'),
         path: path,
         uuid: uuidv4({ random: v4Defaults.uuid }),
         version: 4

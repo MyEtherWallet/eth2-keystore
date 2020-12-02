@@ -4,7 +4,7 @@ import {
     pathToIndices,
     deriveChildSKMultiple
 } from '@chainsafe/bls-hd-key';
-import { generatePublicKey, initBLS } from '@chainsafe/bls';
+import { SecretKey, init } from '@chainsafe/bls';
 import generateKeystore from './generateKeystore';
 import verifyKeystore from './verifyKeystore';
 class Keystore {
@@ -41,8 +41,12 @@ class Keystore {
         return deriveChildSKMultiple(this.masterKey, pathToIndices(path));
     }
     async getPublicKey(idx = 0, isSigning = true) {
-        await initBLS();
-        return generatePublicKey(this.getChildKey(idx, isSigning));
+        await init('herumi');
+        return Buffer.from(
+            SecretKey.fromBytes(await this.getChildKey(idx, isSigning))
+                .toPublicKey()
+                .toBytes()
+        );
     }
     async toSigningKeystore(password, idx = 0, params = {}) {
         const childKey = await this.getChildKey(idx, true);
