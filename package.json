@@ -1,6 +1,6 @@
 {
     "name": "@myetherwallet/eth2-keystore",
-    "version": "0.2.2",
+    "version": "0.2.3",
     "description": "eth2 keystore",
     "main": "dist/index.js",
     "scripts": {
