@@ -61,7 +61,7 @@ Requirements:
 
 ### Audit
 
-This repo is using the library audited by [this security audit](https://github.com/ChainSafe/lodestar/blob/master/audits/2020-03-23_UTILITY_LIBRARIES.pdf), released 2020-03-23. Commit [`32b068`](https://github.com/ChainSafe/bls-hd-key/commit/32b068) verified in the report.
+This repo is using the library audited by [this security audit](https://github.com/ChainSafe/lodestar/blob/master/audits/2020-03-23_UTILITY_LIBRARIES.pdf), released 2020-03-23. Commit [`767c998`](https://github.com/ChainSafe/bls-hd-key/commit/767c998) verified in the report.
 
 ### Special Thanks
 
