@@ -1,12 +1,12 @@
 {
     "name": "@myetherwallet/eth2-keystore",
-    "version": "0.2.3",
+    "version": "0.2.4",
     "description": "eth2 keystore",
     "main": "dist/index.js",
     "scripts": {
         "build": "babel src -d dist --copy-files --delete-dir-on-start",
         "test:web": "karma start",
-        "test:node": "mocha -r @babel/register test/**/*.spec.js",
+        "test:node": "mocha -r @babel/register test/**/seed*.spec.js",
         "test": "npm run test:web && npm run test:node"
     },
     "repository": {

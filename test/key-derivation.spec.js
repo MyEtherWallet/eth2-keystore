@@ -36,8 +36,30 @@ describe('key derivation', function () {
                     'be'
                 );
                 const childSK = deriveChildSK(parentSK, index);
-                expect(childSK.toString('hex')).to.be.deep.equal(
+                const childSKBN = new BN(
+                    childSK.toString('hex'),
+                    'hex'
+                ).toArrayLike(Buffer, 'be');
+                expect(childSKBN.toString('hex')).to.be.deep.equal(
                     expectedChildSK.toString('hex')
+                );
+            });
+        });
+    });
+
+    describe('SK to hex', function () {
+        testVectors.forEach((testVector, index) => {
+            it(`test vector #${index}`, function () {
+                const expectedChildSK = new BN(testVector.child_SK).toArrayLike(
+                    Buffer,
+                    'be'
+                );
+                const childSKBN = new BN(
+                    testVector.child_SK_hex.toString('hex'),
+                    'hex'
+                ).toArrayLike(Buffer, 'be');
+                expect(expectedChildSK.toString('hex')).to.be.deep.equal(
+                    childSKBN.toString('hex')
                 );
             });
         });
