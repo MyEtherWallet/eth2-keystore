@@ -1,8 +1,9 @@
-import { normalizePassword, KDFFunctions } from './utils';
-import { pbkdf2Sync } from 'crypto';
+import { normalizePassword, KDFFunctions, runCipherBuffer } from './utils';
+import { pbkdf2Sync, createDecipheriv } from 'crypto';
 import { sha256 } from 'ethereumjs-util';
 import { scrypt } from 'scrypt-js';
-const verify = async (keystore, password) => {
+
+const getDerivedKey = async (keystore, password) => {
     password = normalizePassword(password);
     let derivedKey;
     if (keystore.crypto.kdf.function === KDFFunctions.Scrypt) {
@@ -26,6 +27,11 @@ const verify = async (keystore, password) => {
             'sha256'
         );
     }
+    return derivedKey;
+};
+
+const verify = async (keystore, password) => {
+    const derivedKey = await getDerivedKey(keystore, password);
     const checksum = sha256(
         Buffer.concat([
             derivedKey.slice(16),
@@ -34,4 +40,27 @@ const verify = async (keystore, password) => {
     ).toString('hex');
     return checksum === keystore.crypto.checksum.message;
 };
-export default verify;
+
+const getSecretKeyFromKeystore = async (keystore, password) => {
+    const derivedKey = await getDerivedKey(keystore, password);
+    const checksum = sha256(
+        Buffer.concat([
+            derivedKey.slice(16),
+            Buffer.from(keystore.crypto.cipher.message, 'hex')
+        ])
+    ).toString('hex');
+    if (checksum !== keystore.crypto.checksum.message)
+        return Promise.reject('invalid password');
+    const ciphertext = createDecipheriv(
+        keystore.crypto.cipher.function,
+        derivedKey.slice(0, 16),
+        Buffer.from(keystore.crypto.cipher.params.iv, 'hex')
+    );
+    const key = runCipherBuffer(
+        ciphertext,
+        Buffer.from(keystore.crypto.cipher.message, 'hex')
+    );
+    return key;
+};
+
+export { getSecretKeyFromKeystore, verify };

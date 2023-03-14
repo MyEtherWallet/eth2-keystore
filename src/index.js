@@ -6,7 +6,19 @@ import {
 } from '@chainsafe/bls-hd-key';
 import { SecretKey, init } from '@chainsafe/bls';
 import generateKeystore from './generateKeystore';
-import verifyKeystore from './verifyKeystore';
+import {
+    verify as verifyKeystore,
+    getSecretKeyFromKeystore
+} from './verifyKeystore';
+import {
+    getBLSToExecution,
+    keystoreToBLSExecution,
+    mnemonicToBLSExecution,
+    pubKeyToWithdrawalCredential
+} from './blsToExecution';
+
+import { CHAIN_NAMES, CHAIN_CONFIGS } from './chainConfigs';
+
 class Keystore {
     constructor({
         mnemonic = '',
@@ -58,6 +70,22 @@ class Keystore {
         const path = await this.getPath(idx, false);
         return generateKeystore(childKey, password, params, path);
     }
+    async getSigningSecretKey(idx = 0) {
+        return this.getChildKey(idx, true);
+    }
+    async getWithdrawalSecretKey(idx = 0) {
+        return this.getChildKey(idx, false);
+    }
 }
-export { generateKeystore, verifyKeystore };
+export {
+    generateKeystore,
+    verifyKeystore,
+    getSecretKeyFromKeystore,
+    getBLSToExecution,
+    keystoreToBLSExecution,
+    mnemonicToBLSExecution,
+    pubKeyToWithdrawalCredential,
+    CHAIN_NAMES,
+    CHAIN_CONFIGS
+};
 export default Keystore;

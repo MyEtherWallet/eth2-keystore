@@ -1,12 +1,12 @@
 {
     "name": "@myetherwallet/eth2-keystore",
-    "version": "0.2.4",
+    "version": "0.3.0",
     "description": "eth2 keystore",
     "main": "dist/index.js",
     "scripts": {
         "build": "babel src -d dist --copy-files --delete-dir-on-start",
         "test:web": "karma start",
-        "test:node": "mocha -r @babel/register test/**/seed*.spec.js",
+        "test:node": "mocha -r @babel/register test/**/*.spec.js",
         "test": "npm run test:web && npm run test:node"
     },
     "repository": {
@@ -29,8 +29,9 @@
         "@babel/node": "^7.8.7",
         "@babel/plugin-transform-runtime": "^7.9.0",
         "@babel/preset-env": "^7.9.0",
-        "@chainsafe/bls": "^5.0.0",
+        "@chainsafe/bls": "^6.0.3",
         "@chainsafe/bls-hd-key": "^0.2.0",
+        "@chainsafe/ssz": "^0.10.2",
         "babel-eslint": "^10.1.0",
         "babel-loader": "^8.2.1",
         "babel-plugin-module-resolver": "^4.0.0",
@@ -41,7 +42,7 @@
         "eslint-import-resolver-babel-module": "^5.1.2",
         "eslint-plugin-import": "^2.20.2",
         "eslint-plugin-prettier": "^3.1.2",
-        "ethereumjs-util": "^7.0.7",
+        "ethereumjs-util": "^7.1.5",
         "karma": "^4.4.1",
         "karma-chai": "^0.1.0",
         "karma-chrome-launcher": "^3.1.0",
