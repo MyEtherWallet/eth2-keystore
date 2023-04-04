@@ -11,6 +11,15 @@ module.exports = {
         extensions: ['.js']
     },
     module: {
-        rules: []
+        rules: [
+            {
+                test: /node_modules\/@chainsafe\/.*\.js$/,
+                loader: 'babel-loader',
+                options: {
+                    compact: true,
+                    presets: ['@babel/preset-env']
+                }
+            }
+        ]
     }
 };

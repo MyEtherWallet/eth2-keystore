@@ -38,7 +38,7 @@ const getBLSToExecution = async (
     const blsSK = SecretKey.fromBytes(secretKey);
     const publicKey = blsSK.toPublicKey();
     const derivedCredentials = `0x00${sha256(Buffer.from(publicKey.toBytes()))
-        .subarray(1)
+        .slice(1)
         .toString('hex')}`;
     if (derivedCredentials !== withdrawalCredentials)
         return Promise.reject('Withdrawal credentials do not match');
@@ -62,7 +62,7 @@ const getBLSToExecution = async (
 
     const executionChangeDomain = Buffer.concat([
         Buffer.from(DOMAIN_BLS_TO_EXECUTION_CHANGE, 'hex'),
-        Buffer.from(forkDataHash).subarray(0, 28)
+        Buffer.from(forkDataHash).slice(0, 28)
     ]);
 
     const signingRoot = SigningData.hashTreeRoot({
@@ -87,11 +87,8 @@ const getBLSToExecution = async (
 };
 
 const pubKeyToWithdrawalCredential = pubkey => {
-    const derivedCredentials = `0x00${sha256(
-        Buffer.from(pubkey.replace('0x', ''), 'hex')
-    )
-        .subarray(1)
-        .toString('hex')}`;
+    const hash = sha256(Buffer.from(pubkey.replace('0x', ''), 'hex')).slice(1);
+    const derivedCredentials = `0x00${hash.toString('hex')}`;
     return derivedCredentials;
 };
 

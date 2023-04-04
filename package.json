@@ -1,6 +1,6 @@
 {
     "name": "@myetherwallet/eth2-keystore",
-    "version": "0.3.0",
+    "version": "0.3.1",
     "description": "eth2 keystore",
     "main": "dist/index.js",
     "scripts": {
@@ -24,11 +24,12 @@
     },
     "homepage": "https://github.com/MyEtherWallet/eth2-keystore#readme",
     "dependencies": {
-        "@babel/cli": "^7.8.4",
-        "@babel/core": "^7.9.0",
-        "@babel/node": "^7.8.7",
-        "@babel/plugin-transform-runtime": "^7.9.0",
-        "@babel/preset-env": "^7.9.0",
+        "@babel/cli": "^7.21.0",
+        "@babel/core": "^7.21.4",
+        "@babel/node": "^7.20.7",
+        "@babel/plugin-proposal-nullish-coalescing-operator": "^7.18.6",
+        "@babel/plugin-transform-runtime": "^7.21.4",
+        "@babel/preset-env": "^7.21.4",
         "@chainsafe/bls": "^6.0.3",
         "@chainsafe/bls-hd-key": "^0.2.0",
         "@chainsafe/ssz": "^0.10.2",
@@ -55,5 +56,8 @@
         "scrypt-js": "^3.0.1",
         "uuid": "^8.3.1",
         "webpack": "^4.42.0"
+    },
+    "devDependencies": {
+        "@babel/plugin-proposal-optional-chaining": "^7.21.0"
     }
 }
